@@ -1,4 +1,4 @@
-package com.ubs.proposal.stream;
+package com.ubs.proposal.stream.calculation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
@@ -15,7 +15,7 @@ public class CalculationPublisherImpl implements CalculationPublisher {
     }
 
     @Override
-    public void sendCreateCalculationEvent(final CreateCalculationEvent createCalculationEvent) {
+    public void createCalculationEvent(final CreateCalculationEvent createCalculationEvent) {
         try {
             calculationStream.output()
                     .send(MessageBuilder.withPayload(createCalculationEvent).build());

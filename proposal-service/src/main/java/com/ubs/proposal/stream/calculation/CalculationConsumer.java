@@ -1,4 +1,4 @@
-package com.ubs.proposal.stream;
+package com.ubs.proposal.stream.calculation;
 
 import com.ubs.proposal.service.ProposalService;
 import lombok.extern.slf4j.Slf4j;

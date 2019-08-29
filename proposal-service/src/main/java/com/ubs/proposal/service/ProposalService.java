@@ -2,7 +2,7 @@ package com.ubs.proposal.service;
 
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.model.Proposal;
-import com.ubs.proposal.stream.CalculationEvent;
+import com.ubs.proposal.stream.calculation.CalculationEvent;
 
 import java.util.List;
 
@@ -15,4 +15,6 @@ public interface ProposalService {
     void createProposalCalculation(Long proposalId, CreateCalculationDto createCalculationDto);
 
     void addCalculation(CalculationEvent calculationEvent);
+
+    void sendEmail(Long proposalId);
 }

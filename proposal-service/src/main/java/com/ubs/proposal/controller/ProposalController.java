@@ -36,4 +36,9 @@ public class ProposalController {
     public void createProposalCalculation(@PathVariable final Long proposalId, @RequestBody final CreateCalculationDto createCalculationDto) {
         proposalService.createProposalCalculation(proposalId, createCalculationDto);
     }
+
+    @GetMapping("/{proposalId}/email")
+    public void sendEmail(@PathVariable final Long proposalId) {
+        proposalService.sendEmail(proposalId);
+    }
 }

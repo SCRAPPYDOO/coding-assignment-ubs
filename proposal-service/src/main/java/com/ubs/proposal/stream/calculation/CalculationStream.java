@@ -1,4 +1,4 @@
-package com.ubs.proposal.stream;
+package com.ubs.proposal.stream.calculation;
 
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;

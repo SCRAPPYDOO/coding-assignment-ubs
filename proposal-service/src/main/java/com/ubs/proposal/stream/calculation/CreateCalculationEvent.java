@@ -1,4 +1,4 @@
-package com.ubs.proposal.stream;
+package com.ubs.proposal.stream.calculation;
 
 import lombok.Data;
 import lombok.ToString;
