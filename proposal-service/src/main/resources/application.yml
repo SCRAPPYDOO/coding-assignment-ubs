@@ -1,4 +1,9 @@
+server:
+  port: 8881
+
 spring:
+  application:
+    name: proposal-service
   datasource:
     url: jdbc:hsqldb:file:data/mydb
     username: sa
