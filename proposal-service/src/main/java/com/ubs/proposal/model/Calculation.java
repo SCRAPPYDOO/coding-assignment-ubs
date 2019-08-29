@@ -15,4 +15,6 @@ public class Calculation {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonBackReference
     private Proposal proposal;
+
+    private CalculationStatus calculationStatus;
 }

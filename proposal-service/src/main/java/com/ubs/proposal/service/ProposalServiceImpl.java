@@ -1,8 +1,10 @@
 package com.ubs.proposal.service;
 
+import com.ubs.proposal.dto.AttachCalculationDto;
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.exception.ProposalNotFoundException;
 import com.ubs.proposal.model.Calculation;
+import com.ubs.proposal.model.CalculationStatus;
 import com.ubs.proposal.model.Proposal;
 import com.ubs.proposal.stream.calculation.CalculationEvent;
 import com.ubs.proposal.stream.calculation.CreateCalculationEvent;
@@ -85,6 +87,22 @@ public class ProposalServiceImpl implements ProposalService {
         createEmailEvent.setAttachmentList(emailAttachmentListl);
 
         emailPublisher.createEmailEvent(createEmailEvent);
+    }
+
+    @Override
+    @Transactional
+    public void attachCalculation(Long proposalId, Long calculationId, AttachCalculationDto attachCalculationDto) {
+        final Proposal proposal = findProposalById(proposalId);
+
+        proposal.getCalculationList().stream()
+                .filter(calculation -> calculation.getId().equals(calculationId))
+                .findFirst()
+                .ifPresent(calculation -> calculation.setCalculationStatus(attachCalculationDto.isAttach() ? CalculationStatus.ATTACHED : CalculationStatus.NOT_ATTACHED));
+    }
+
+    @Override
+    public Proposal getProposalById(Long proposalId) {
+        return findProposalById(proposalId);
     }
 
     private Proposal findProposalById(final Long proposalId) {

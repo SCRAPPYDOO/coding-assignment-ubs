@@ -1,5 +1,6 @@
 package com.ubs.proposal.service;
 
+import com.ubs.proposal.dto.AttachCalculationDto;
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.model.Proposal;
 import com.ubs.proposal.stream.calculation.CalculationEvent;
@@ -17,4 +18,8 @@ public interface ProposalService {
     void addCalculation(CalculationEvent calculationEvent);
 
     void sendEmail(Long proposalId);
+
+    void attachCalculation(Long proposalId, Long calculationId, AttachCalculationDto attachCalculationDto);
+
+    Proposal getProposalById(Long proposalId);
 }
