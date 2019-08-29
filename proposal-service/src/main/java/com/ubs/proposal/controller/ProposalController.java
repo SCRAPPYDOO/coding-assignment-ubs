@@ -1,13 +1,13 @@
 package com.ubs.proposal.controller;
 
+import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.dto.CreateProposalDto;
 import com.ubs.proposal.dto.ProposalDto;
 import com.ubs.proposal.mapper.ProposalMapper;
 import com.ubs.proposal.service.ProposalService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/proposal")
@@ -25,5 +25,15 @@ public class ProposalController {
     @PostMapping
     public ProposalDto createProposal(@RequestBody final CreateProposalDto proposalDto) {
         return proposalMapper.mapToProposalDto(proposalService.createProposal(proposalMapper.mapToProposal(proposalDto)));
+    }
+
+    @GetMapping
+    public List<ProposalDto> getProposals() {
+        return proposalMapper.mapToProposalDtoList(proposalService.getProposals());
+    }
+
+    @PostMapping("/{proposalId}/calculation")
+    public void createProposalCalculation(@PathVariable final Long proposalId, @RequestBody final CreateCalculationDto createCalculationDto) {
+        proposalService.createProposalCalculation(proposalId, createCalculationDto);
     }
 }

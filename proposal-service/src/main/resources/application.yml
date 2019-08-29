@@ -12,3 +12,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+  cloud:
+    stream:
+      bindings:
+        calculation-out-topic:
+          destination: calculation-out-topic
+          contentType: application/json
+          producer:
+            header-mode: embeddedHeaders
+        calculation-in-topic:
+          group: proposal-service-group
+          destination: calculation-in-topic
+          contentType: application/json
+          consumer:
+            header-mode: embeddedHeaders
+            resetOffsets: true
+            startOffset: earliest
