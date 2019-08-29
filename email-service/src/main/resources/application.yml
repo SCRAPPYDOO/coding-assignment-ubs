@@ -1,0 +1,17 @@
+server:
+  port: 8883
+
+spring:
+  application:
+    name: email-service
+  cloud:
+    stream:
+      bindings:
+        email-in-topic:
+          group: email-service-group
+          destination: create-email-topic
+          contentType: application/json
+          consumer:
+            header-mode: embeddedHeaders
+            resetOffsets: true
+            startOffset: earliest
