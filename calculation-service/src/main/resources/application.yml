@@ -11,7 +11,7 @@ spring:
     driverClassName: org.hsqldb.jdbcDriver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
   cloud:
     stream:
       bindings:
