@@ -1,4 +1,4 @@
-package com.ubs.proposal.queue;
+package com.ubs.proposal.stream;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;

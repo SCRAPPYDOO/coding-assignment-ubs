@@ -2,9 +2,9 @@ package com.ubs.proposal.service;
 
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.model.Proposal;
-import com.ubs.proposal.queue.CalculationEvent;
-import com.ubs.proposal.queue.CreateCalculationEvent;
-import com.ubs.proposal.queue.CalculationPublisher;
+import com.ubs.proposal.stream.CalculationEvent;
+import com.ubs.proposal.stream.CreateCalculationEvent;
+import com.ubs.proposal.stream.CalculationPublisher;
 import com.ubs.proposal.repository.ProposalRepository;
 import org.springframework.stereotype.Service;
 

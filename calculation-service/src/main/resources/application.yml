@@ -1,9 +1,30 @@
+server:
+  port: 8882
+
 spring:
+  application:
+    name: calculation-service
   datasource:
-    url: jdbc:hsqldb:file:data/mydb
+    url: jdbc:hsqldb:file:data/calculation
     username: sa
     password:
     driverClassName: org.hsqldb.jdbcDriver
   jpa:
     hibernate:
       ddl-auto: none
+  cloud:
+    stream:
+      bindings:
+        calculation-out-topic:
+          destination: new-calculation-topic
+          contentType: application/json
+          producer:
+            header-mode: embeddedHeaders
+        calculation-in-topic:
+          group: calculation-service-group
+          destination: create-calculation-topic
+          contentType: application/json
+          consumer:
+            header-mode: embeddedHeaders
+            resetOffsets: true
+            startOffset: earliest

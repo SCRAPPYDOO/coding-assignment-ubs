@@ -2,7 +2,7 @@ package com.ubs.proposal.service;
 
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.model.Proposal;
-import com.ubs.proposal.queue.CalculationEvent;
+import com.ubs.proposal.stream.CalculationEvent;
 
 import java.util.List;
 

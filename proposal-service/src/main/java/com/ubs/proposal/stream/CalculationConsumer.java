@@ -1,4 +1,4 @@
-package com.ubs.proposal.queue;
+package com.ubs.proposal.stream;
 
 import com.ubs.proposal.service.ProposalService;
 import lombok.extern.slf4j.Slf4j;

@@ -5,7 +5,7 @@ spring:
   application:
     name: proposal-service
   datasource:
-    url: jdbc:hsqldb:file:data/mydb
+    url: jdbc:hsqldb:file:data/proposal
     username: sa
     password:
     driverClassName: org.hsqldb.jdbcDriver
@@ -16,13 +16,13 @@ spring:
     stream:
       bindings:
         calculation-out-topic:
-          destination: calculation-out-topic
+          destination: create-calculation-topic
           contentType: application/json
           producer:
             header-mode: embeddedHeaders
         calculation-in-topic:
           group: proposal-service-group
-          destination: calculation-in-topic
+          destination: new-calculation-topic
           contentType: application/json
           consumer:
             header-mode: embeddedHeaders

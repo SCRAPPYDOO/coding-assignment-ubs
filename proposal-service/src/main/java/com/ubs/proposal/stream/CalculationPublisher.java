@@ -1,4 +1,4 @@
-package com.ubs.proposal.queue;
+package com.ubs.proposal.stream;
 
 public interface CalculationPublisher {
 

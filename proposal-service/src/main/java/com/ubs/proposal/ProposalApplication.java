@@ -1,6 +1,6 @@
 package com.ubs.proposal;
 
-import com.ubs.proposal.queue.CalculationStream;
+import com.ubs.proposal.stream.CalculationStream;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
