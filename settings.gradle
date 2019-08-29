@@ -1,0 +1,5 @@
+rootProject.name = 'coding-assignment-ubs'
+
+include 'proposal-service'
+include 'email-service'
+include 'calculation-service'

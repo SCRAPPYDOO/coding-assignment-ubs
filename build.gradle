@@ -1,0 +1,28 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootGradlePluginVersion}")
+    }
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compile "org.projectlombok:lombok:${lombokVersion}"
+        compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+        compile "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+        testCompile "junit:junit:${junitVersion}"
+    }
+}
