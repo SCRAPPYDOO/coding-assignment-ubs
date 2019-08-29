@@ -24,6 +24,10 @@ public class CalculationServiceImpl implements CalculationService {
 
         final Calculation calculation = new Calculation();
 
+        //ToDo: Add builder
+        calculation.setClientId(createCalculationEvent.getClientId());
+        calculation.setProposalId(createCalculationEvent.getProposalId());
+
         calculationRepository.save(calculation);
 
         calculationPublisher.sendCalculationEvent(calculation);
