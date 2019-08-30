@@ -44,7 +44,7 @@ public class ProposalController {
     }
 
     @PatchMapping("/{proposalId}/calculation/{calculationId}/attach")
-    public void createProposalCalculation(@PathVariable final Long proposalId, @PathVariable final Long calculationId, @RequestBody final AttachCalculationDto attachCalculationDto) {
+    public void attachProposalCalculation(@PathVariable final Long proposalId, @PathVariable final Long calculationId, @RequestBody final AttachCalculationDto attachCalculationDto) {
         proposalService.attachCalculation(proposalId, calculationId, attachCalculationDto);
     }
 
