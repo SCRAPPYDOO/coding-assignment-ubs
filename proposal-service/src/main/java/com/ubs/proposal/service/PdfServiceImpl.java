@@ -1,8 +1,10 @@
 package com.ubs.proposal.service;
 
+import com.ubs.proposal.model.CalculationStatus;
 import com.ubs.proposal.model.Proposal;
 import com.ubs.proposal.model.ProposalPdfDocument;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.pdfbox.multipdf.PDFMergerUtility;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -10,6 +12,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +36,7 @@ public class PdfServiceImpl implements PdfService {
         try {
             final PDDocument document = new PDDocument();
             final PDPage page = new PDPage();
+            final PDFMergerUtility PDFmerger = new PDFMergerUtility();
 
             document.addPage(page);
 
@@ -55,6 +59,20 @@ public class PdfServiceImpl implements PdfService {
             proposalPdfDocument.setLocalDateTime(generationTime);
             proposalPdfDocument.setPath(path);
 
+            if(attachCalculations && !proposal.getCalculationList().isEmpty()) {
+                proposal.getCalculationList().stream()
+                        .filter(calculation -> CalculationStatus.ATTACHED.equals(calculation.getCalculationStatus()))
+                        .forEach(calculation -> {
+                            try {
+                                File file = new File(calculation.getPdfDocumentPath());
+                                final PDDocument calculationPdf = PDDocument.load(file);
+                                PDFmerger.appendDocument(document, calculationPdf);
+                            } catch (IOException e) {
+                                log.error("Error merging calculation {} for proposal {} client {}", calculation.getId(), proposal.getId(), proposal.getClientId(), e);
+                            }
+                        });
+            }
+
             document.save(path);
             document.close();
 
@@ -65,28 +83,4 @@ public class PdfServiceImpl implements PdfService {
 
         return Optional.empty();
     }
-
-
-
-  /*              if(attachCalculations) {
-        proposal.getCalculationList().stream()
-                .filter(calculation -> CalculationStatus.ATTACHED.equals(calculation.getCalculationStatus()))
-                .forEach(calculation -> {
-                    final PDPage calculationPage = new PDPage();
-
-                    document.addPage(calculationPage);
-
-                    try {
-                        final PDPageContentStream calculationPageStream = new PDPageContentStream(document, calculationPage);
-
-                        calculationPageStream.beginText();
-                        calculationPageStream.showText(String.format("Calculation Id: %s for Client Id: %s", proposal.getId(), proposal.getClientId()));
-                        calculationPageStream.endText();
-                        calculationPageStream.close();
-
-                    } catch (IOException e) {
-                        log.error("Error creating pdf page for calculation {} ", calculation.toString());
-                    }
-                });*/
-
 }

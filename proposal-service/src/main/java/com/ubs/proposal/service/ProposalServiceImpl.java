@@ -91,8 +91,7 @@ public class ProposalServiceImpl implements ProposalService {
         if(!proposal.getProposalPdfDocumentList().isEmpty()) {
             emailAttachmentListl.add(new EmailAttachment(proposal.getProposalPdfDocumentList()
                     .stream()
-                    .sorted(Comparator.comparing(ProposalPdfDocument::getId))
-                    .findFirst()
+                    .max(Comparator.comparing(ProposalPdfDocument::getId))
                     .map(ProposalPdfDocument::getPath)
                     .get()
             ));
