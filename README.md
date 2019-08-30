@@ -32,13 +32,13 @@ This project is using kafka, default configuration
 
 https://kafka.apache.org/quickstart
 
-## RUN ##
+## BUILD ##
+./gradlew clean build
 
+## RUN ##
 to run u can use command `./gradlew bootRun` in every service directory
 u need to run kafka locally
 
-## FRONTEND ##
-didn't have time for creating basic frontend
-
-## TESTS ##
-same as above, but if u want me to create them, let me know :)
+## FRONTEND && TESTS ##
+didn't have time for creating basic frontend and tests, only tested manually
+but if u want me to create and u want to wait i can make them during the weekend.
