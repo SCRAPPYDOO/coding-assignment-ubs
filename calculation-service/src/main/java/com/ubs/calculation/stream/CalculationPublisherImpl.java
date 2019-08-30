@@ -1,6 +1,5 @@
 package com.ubs.calculation.stream;
 
-import com.ubs.calculation.model.Calculation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ public class CalculationPublisherImpl implements CalculationPublisher {
                     .send(MessageBuilder.withPayload(calculationEvent).build());
         } catch (Exception ex) {
             log.error("Error publishing new calculation event {} {}", calculationEvent.toString(), ex);
-            //ToDo: add exception
         }
     }
 }

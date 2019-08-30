@@ -51,14 +51,10 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public void createProposalCalculation(final Long proposalId, final CreateCalculationDto createCalculationDto) {
 
-        //ToDo: add logic
-        //ToDo: add builder
-        //ToDo: client id ? for now fake as i don't have any context
-
-        final CreateCalculationEvent createCalculationEvent = new CreateCalculationEvent();
-
-        createCalculationEvent.setProposalId(proposalId);
-        createCalculationEvent.setClientId(1L);
+        final CreateCalculationEvent createCalculationEvent = new CreateCalculationEvent.CreateCalculationEventBuilder()
+                .setClientId(1L)
+                .setProposalId(proposalId)
+                .build();
 
         calculationPublisher.createCalculationEvent(createCalculationEvent);
     }
@@ -69,7 +65,6 @@ public class ProposalServiceImpl implements ProposalService {
 
         final Proposal proposal = findProposalById(calculationEvent.getProposalId());
 
-        //ToDo: add builder
         final Calculation calculation = new Calculation();
         calculation.setId(calculationEvent.getId());
         calculation.setProposal(proposal);
@@ -82,10 +77,6 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public void sendEmail(final Long proposalId) {
         final Proposal proposal = findProposalById(proposalId);
-
-        //ToDo: add builder
-        final CreateEmailEvent createEmailEvent = new CreateEmailEvent();
-
         final List<EmailAttachment> emailAttachmentListl = new ArrayList<>();
 
         if(!proposal.getProposalPdfDocumentList().isEmpty()) {
@@ -97,8 +88,10 @@ public class ProposalServiceImpl implements ProposalService {
             ));
         }
 
-        createEmailEvent.setClientId(proposal.getClientId());
-        createEmailEvent.setAttachmentList(emailAttachmentListl);
+        final CreateEmailEvent createEmailEvent = new CreateEmailEvent.CreateEmailEventBuilder()
+                .setClientId(proposal.getClientId())
+                .setAttachmentList(emailAttachmentListl)
+                .build();
 
         emailPublisher.createEmailEvent(createEmailEvent);
     }

@@ -28,7 +28,6 @@ public class CalculationServiceImpl implements CalculationService {
     public void createCalculation(CreateCalculationEvent createCalculationEvent) {
         final Calculation calculation = new Calculation();
 
-        //ToDo: Add builder
         calculation.setClientId(createCalculationEvent.getClientId());
         calculation.setProposalId(createCalculationEvent.getProposalId());
 
