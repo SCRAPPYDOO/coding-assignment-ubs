@@ -17,6 +17,10 @@ email service
 - sending emails
 - in real world should have own table with client emails
 
+## PDFS ##
+Assuming that we have common pdf storage, and when creating pdf we are sending it to this storage,
+in real world i would create pdf web service to manage pdfs.
+
 ## KAFKA ##
 
 This project  is  using  kafka

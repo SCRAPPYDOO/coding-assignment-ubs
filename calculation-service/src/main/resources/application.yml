@@ -28,3 +28,7 @@ spring:
             header-mode: embeddedHeaders
             resetOffsets: true
             startOffset: earliest
+
+pdf-service:
+  calculation:
+    path: C://calculations/

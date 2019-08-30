@@ -2,10 +2,7 @@ package com.ubs.calculation.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -18,4 +15,7 @@ public class Calculation {
     private Long clientId;
 
     private Long proposalId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private CalculationPdfDocument calculationPdfDocument;
 }

@@ -16,12 +16,12 @@ public class CalculationPublisherImpl implements CalculationPublisher {
     }
 
     @Override
-    public void sendCalculationEvent(final Calculation calculation) {
+    public void sendCalculationEvent(final CalculationEvent calculationEvent) {
         try {
             calculationStream.output()
-                    .send(MessageBuilder.withPayload(calculation).build());
+                    .send(MessageBuilder.withPayload(calculationEvent).build());
         } catch (Exception ex) {
-            log.error("Error publishing new calculation event {} {}", calculation.toString(), ex);
+            log.error("Error publishing new calculation event {} {}", calculationEvent.toString(), ex);
             //ToDo: add exception
         }
     }

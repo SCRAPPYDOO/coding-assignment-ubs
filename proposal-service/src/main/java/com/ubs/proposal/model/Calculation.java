@@ -19,4 +19,6 @@ public class Calculation {
     private Proposal proposal;
 
     private CalculationStatus calculationStatus;
+
+    private String pdfDocumentPath;
 }

@@ -1,4 +1,4 @@
-package com.ubs.proposal.stream.calculation;
+package com.ubs.calculation.stream;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

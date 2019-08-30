@@ -3,10 +3,7 @@ package com.ubs.proposal.service;
 import com.ubs.proposal.dto.AttachCalculationDto;
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.exception.ProposalNotFoundException;
-import com.ubs.proposal.model.Calculation;
-import com.ubs.proposal.model.CalculationStatus;
-import com.ubs.proposal.model.Proposal;
-import com.ubs.proposal.model.ProposalPdfDocument;
+import com.ubs.proposal.model.*;
 import com.ubs.proposal.stream.calculation.CalculationEvent;
 import com.ubs.proposal.stream.calculation.CreateCalculationEvent;
 import com.ubs.proposal.stream.calculation.CalculationPublisher;
@@ -17,8 +14,11 @@ import com.ubs.proposal.stream.email.EmailPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProposalServiceImpl implements ProposalService {
@@ -73,6 +73,8 @@ public class ProposalServiceImpl implements ProposalService {
         final Calculation calculation = new Calculation();
         calculation.setId(calculationEvent.getId());
         calculation.setProposal(proposal);
+        calculation.setPdfDocumentPath(calculationEvent.getPdfDocumentPath());
+        calculation.setCalculationStatus(CalculationStatus.NOT_ATTACHED);
 
         proposal.getCalculationList().add(calculation);
     }
@@ -84,8 +86,17 @@ public class ProposalServiceImpl implements ProposalService {
         //ToDo: add builder
         final CreateEmailEvent createEmailEvent = new CreateEmailEvent();
 
-        //ToDo: add logic to create attachments
-        final List<EmailAttachment> emailAttachmentListl = Collections.emptyList();
+        final List<EmailAttachment> emailAttachmentListl = new ArrayList<>();
+
+        if(!proposal.getProposalPdfDocumentList().isEmpty()) {
+            emailAttachmentListl.add(new EmailAttachment(proposal.getProposalPdfDocumentList()
+                    .stream()
+                    .sorted(Comparator.comparing(ProposalPdfDocument::getId))
+                    .findFirst()
+                    .map(ProposalPdfDocument::getPath)
+                    .get()
+            ));
+        }
 
         createEmailEvent.setClientId(proposal.getClientId());
         createEmailEvent.setAttachmentList(emailAttachmentListl);
