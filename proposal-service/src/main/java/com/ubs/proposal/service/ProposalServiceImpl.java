@@ -6,6 +6,7 @@ import com.ubs.proposal.exception.ProposalNotFoundException;
 import com.ubs.proposal.model.Calculation;
 import com.ubs.proposal.model.CalculationStatus;
 import com.ubs.proposal.model.Proposal;
+import com.ubs.proposal.model.ProposalPdfDocument;
 import com.ubs.proposal.stream.calculation.CalculationEvent;
 import com.ubs.proposal.stream.calculation.CreateCalculationEvent;
 import com.ubs.proposal.stream.calculation.CalculationPublisher;
@@ -25,13 +26,16 @@ public class ProposalServiceImpl implements ProposalService {
     private final ProposalRepository proposalRepository;
     private final CalculationPublisher calculationPublisher;
     private final EmailPublisher emailPublisher;
+    private final PdfService pdfService;
 
     public ProposalServiceImpl(final ProposalRepository proposalRepository,
                                final CalculationPublisher calculationPublisher,
-                               final EmailPublisher emailPublisher) {
+                               final EmailPublisher emailPublisher,
+                               final PdfService pdfService) {
         this.proposalRepository = proposalRepository;
         this.calculationPublisher = calculationPublisher;
         this.emailPublisher = emailPublisher;
+        this.pdfService = pdfService;
     }
 
     @Override
@@ -103,6 +107,20 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public Proposal getProposalById(Long proposalId) {
         return findProposalById(proposalId);
+    }
+
+    @Override
+    @Transactional
+    public Proposal createPdf(Long proposalId, boolean attachCalculations) {
+        final Proposal proposal = findProposalById(proposalId);
+
+        final ProposalPdfDocument proposalPdfDocument = pdfService.createPdf(proposal, attachCalculations).orElseThrow(RuntimeException::new);
+
+        proposalPdfDocument.setProposal(proposal);
+
+        proposal.getProposalPdfDocumentList().add(proposalPdfDocument);
+
+        return proposal;
     }
 
     private Proposal findProposalById(final Long proposalId) {

@@ -1,6 +1,5 @@
 package com.ubs.proposal.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +16,8 @@ public class Proposal {
     private Long clientId;
 
     @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL)
-    @JsonBackReference
     private List<Calculation> calculationList;
+
+    @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL)
+    private List<ProposalPdfDocument> proposalPdfDocumentList;
 }

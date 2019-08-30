@@ -2,21 +2,22 @@ package com.ubs.proposal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
-@ToString
-public class Calculation {
+public class ProposalPdfDocument {
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private Proposal proposal;
 
-    private CalculationStatus calculationStatus;
+    private LocalDateTime localDateTime;
+    private String path;
 }

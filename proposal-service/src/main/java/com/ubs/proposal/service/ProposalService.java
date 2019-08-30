@@ -22,4 +22,6 @@ public interface ProposalService {
     void attachCalculation(Long proposalId, Long calculationId, AttachCalculationDto attachCalculationDto);
 
     Proposal getProposalById(Long proposalId);
+
+    Proposal createPdf(Long proposalId, boolean attachCalculations);
 }

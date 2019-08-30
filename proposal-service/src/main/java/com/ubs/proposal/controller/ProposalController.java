@@ -52,4 +52,9 @@ public class ProposalController {
     public void sendEmail(@PathVariable final Long proposalId) {
         proposalService.sendEmail(proposalId);
     }
+
+    @PostMapping("/{proposalId}/pdf")
+    public ProposalDto createPdf(@PathVariable final Long proposalId, @RequestParam(defaultValue = "true") final boolean attachCalculations) {
+        return proposalMapper.mapToProposalDto(proposalService.createPdf(proposalId, attachCalculations));
+    }
 }
