@@ -1,5 +1,6 @@
 package com.ubs.proposal.service;
 
+import com.ubs.proposal.converter.ProposalToCreateEmailEventConverter;
 import com.ubs.proposal.dto.AttachCalculationDto;
 import com.ubs.proposal.dto.CreateCalculationDto;
 import com.ubs.proposal.exception.ProposalNotFoundException;
@@ -8,17 +9,11 @@ import com.ubs.proposal.stream.calculation.CalculationEvent;
 import com.ubs.proposal.stream.calculation.CreateCalculationEvent;
 import com.ubs.proposal.stream.calculation.CalculationPublisher;
 import com.ubs.proposal.repository.ProposalRepository;
-import com.ubs.proposal.stream.email.CreateEmailEvent;
-import com.ubs.proposal.stream.email.EmailAttachment;
 import com.ubs.proposal.stream.email.EmailPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProposalServiceImpl implements ProposalService {
@@ -27,15 +22,18 @@ public class ProposalServiceImpl implements ProposalService {
     private final CalculationPublisher calculationPublisher;
     private final EmailPublisher emailPublisher;
     private final PdfService pdfService;
+    private final ProposalToCreateEmailEventConverter proposalToCreateEmailEventConverter;
 
     public ProposalServiceImpl(final ProposalRepository proposalRepository,
                                final CalculationPublisher calculationPublisher,
                                final EmailPublisher emailPublisher,
-                               final PdfService pdfService) {
+                               final PdfService pdfService,
+                               final ProposalToCreateEmailEventConverter proposalToCreateEmailEventConverter) {
         this.proposalRepository = proposalRepository;
         this.calculationPublisher = calculationPublisher;
         this.emailPublisher = emailPublisher;
         this.pdfService = pdfService;
+        this.proposalToCreateEmailEventConverter = proposalToCreateEmailEventConverter;
     }
 
     @Override
@@ -77,23 +75,8 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public void sendEmail(final Long proposalId) {
         final Proposal proposal = findProposalById(proposalId);
-        final List<EmailAttachment> emailAttachmentListl = new ArrayList<>();
 
-        if(!proposal.getProposalPdfDocumentList().isEmpty()) {
-            emailAttachmentListl.add(new EmailAttachment(proposal.getProposalPdfDocumentList()
-                    .stream()
-                    .max(Comparator.comparing(ProposalPdfDocument::getId))
-                    .map(ProposalPdfDocument::getPath)
-                    .get()
-            ));
-        }
-
-        final CreateEmailEvent createEmailEvent = new CreateEmailEvent.CreateEmailEventBuilder()
-                .setClientId(proposal.getClientId())
-                .setAttachmentList(emailAttachmentListl)
-                .build();
-
-        emailPublisher.createEmailEvent(createEmailEvent);
+        emailPublisher.createEmailEvent(proposalToCreateEmailEventConverter.convert(proposal));
     }
 
     @Override

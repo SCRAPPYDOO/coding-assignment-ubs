@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class AttachCalculationDto {
-    private boolean attach;
+    private final boolean attach;
 
     @JsonCreator
     public AttachCalculationDto(@JsonProperty("attach") boolean attach) {
